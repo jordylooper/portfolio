@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mathis_Portfolio</title>
+
+  <!-- Fonts & Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+  <!-- AOS & Vanta -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script>
+
+  <!-- Styles principaux -->
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #0f0f0f;
+      color: #fff;
+      position: relative;
+    }
+
+    #vanta-bg {
+      position: fixed;
+      width: 100vw;
+      height: 100vh;
+      top: 0;
+      left: 0;
+      z-index: 0;
+    }
+    body > *:not(#vanta-bg) {
+      position: relative;
+      z-index: 2;
+    }
+
+    nav {
+      background: rgba(0, 0, 0, 0.9);
+      padding: 1rem 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      display: flex;
+      justify-content: center;
+    }
+    nav ul {
+      display: flex;
+      list-style: none;
+    }
+    nav ul li {
+      margin: 0 1rem;
+    }
+    nav ul li a {
+      color: #00ffc3;
+      text-decoration: none;
+      font-weight: 500;
+      transition: 0.3s;
+    }
+    nav ul li a:hover {
+      color: #fff;
+    }
+
+    .hero-section {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 4rem 2rem;
+      max-width: 1200px;
+      margin: 4rem auto;
+      flex-wrap: wrap;
+    }
+    .hero-text {
+      flex: 1;
+      min-width: 280px;
+    }
+    .hero-text h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      color: #00ffc3;
+    }
+    .hero-text h2 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 1rem;
+    }
+    .hero-text p {
+      font-size: 1.2rem;
+      line-height: 1.6;
+      color: #ccc;
+      margin-bottom: 2rem;
+    }
+    .btn-cv {
+      display: inline-block;
+      background: #00ffc3;
+      color: #000;
+      padding: 0.8rem 2rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+    .btn-cv:hover {
+      background: #00c3a0;
+    }
+
+        .btn {
+      display: inline-block;
+      background: #000000;
+      color: #00ffc3;
+      padding: 0.8rem 2rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+    .hero-image {
+      flex: 1;
+      min-width: 280px;
+      display: flex;
+      justify-content: center;
+    }
+    .hero-image img {
+      max-width: 300px;
+      border-radius: 50%;
+      box-shadow: 0 0 30px rgba(0, 255, 195, 0.2);
+    }
+
+    section {
+      padding: 4rem 2rem;
+      max-width: 1000px;
+      margin: 4rem auto;
+      background: rgba(15, 15, 15, 0.9);
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(0, 255, 195, 0.1);
+    }
+    h2 {
+      font-size: 2.5rem;
+      color: #00ffc3;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+
+    .skills, .projects, .experience {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+    }
+    .skill, .project, .exp {
+      background: rgba(31, 31, 31, 0.85);
+      padding: 2rem;
+      border-radius: 10px;
+      transition: 0.3s ease;
+      box-shadow: 0 0 10px rgba(0, 255, 195, 0.05);
+    }
+    .skill:hover, .project:hover, .exp:hover {
+      transform: translateY(-5px);
+      background: rgba(42, 42, 42, 0.9);
+      box-shadow: 0 0 20px rgba(0, 255, 195, 0.15);
+    }
+
+    .project-card {
+      background-color: rgba(0, 0, 0, 0.4);
+      padding: 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 0 12px rgba(0, 255, 195, 0.1);
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      overflow: hidden;
+      position: relative;
+    }
+    .project-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 0 20px rgba(0, 255, 195, 0.3);
+    }
+    .project-card h3 {
+      color: #00ffc3;
+      margin-bottom: 0.5rem;
+    }
+    .project-card .short {
+      color: #ccc;
+      font-style: italic;
+    }
+    .project-details {
+      display: none;
+      margin-top: 1rem;
+    }
+    .project-details p {
+      color: #fff;
+      margin-bottom: 1rem;
+      line-height: 1.6;
+    }
+    .project-details img {
+      width: 100%;
+      border-radius: 8px;
+    }
+    .project-card.open .project-details {
+      display: block;
+    }
+    .project-card.open .short {
+      display: none;
+    }
+
+    .contact form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .contact input, .contact textarea {
+      padding: 1rem;
+      border: none;
+      border-radius: 5px;
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+    }
+    .contact button {
+      background: #00ffc3;
+      color: #000;
+      border: none;
+      padding: 1rem;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .contact button:hover {
+      background: #00c3a0;
+    }
+
+    footer {
+      background: #111;
+      text-align: center;
+      padding: 1rem;
+      margin-top: 4rem;
+    }
+  </style>
+</head>
+<body>
+  <div id="vanta-bg"></div>
+
+  <!-- Navigation principale -->
+<nav>
+  <ul>
+    <li><a href="#about">Présentation</a></li>
+    <li><a href="#experience">Parcours</a></li>
+    <li><a href="#projects">Compétences</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- Section Hero -->
+<section class="hero-section">
+  <div class="hero-text">
+    <h1>Mathis</h1>
+    <h2>Étudiant en BUT Réseaux & Télécommunications</h2>
+    <p>Passionné par l'informatique, actuellement en BUT 1, je me dirige vers une spécialisation en cybersécurité.</p>
+    <a href="CV-Mathis.pdf" class="btn-cv">Télécharger mon CV</a>
+  </div>
+  <div class="hero-image">
+    <img src="images/moi2.jpg" alt="Photo de profil">
+  </div>
+</section>
+
+<!-- Section Présentation -->
+<section id="about">
+  <h2>Qui suis-je ?</h2>
+  <p style="font-size: 1.2rem; max-width: 800px; margin: auto; line-height: 1.8; text-align: center; color: #fff;">
+    Étudiant en 1ère année de BUT Réseaux et Télécommunications, passionné par l'OSINT et la cybersécurité. Je souhaite progresser en informatique et développer mes compétences en sécurité des systèmes.
+  </p>
+  <div class="skills" style="margin-top: 3rem;">
+    <div class="skill">
+      <h3 style="color:#00ffc3;">Développement web</h3>
+      <p>HTML, CSS, JavaScript, Python, Django, PHP</p>
+    </div>
+    <div class="skill">
+      <h3 style="color:#00ffc3;">Développement logiciel</h3>
+      <p>Programmation Java, Python, C/C++, scripts</p>
+    </div>
+    <div class="skill">
+      <h3 style="color:#00ffc3;">Base de données</h3>
+      <p>SQL, MySQL, MariaDB, conception de schémas relationnels</p>
+    </div>
+    <div class="skill">
+      <h3 style="color:#00ffc3;">Réseaux</h3>
+      <p>Cisco Packet Tracer, Wireshark, GNS3, EVE-NG</p>
+    </div>
+  </div>
+</section>
+
+<!-- Section Parcours -->
+<section id="experience" class="experience" data-aos="fade-up">
+  <h2>Parcours</h2>
+  <div style="position: relative; max-width: 800px; margin: auto; padding-left: 40px; border-left: 3px solid #00ffc3;">
+    <div class="exp">
+      <h3 style="color:#00ffc3;">2023-2024 – Lycée général</h3>
+      <p>Obtention du Baccalauréat spécialités Mathématiques et Sciences de l'ingénieur.</p>
+    </div>
+    <div class="exp">
+      <h3 style="color:#00ffc3;">Été 2023 – Job en hôtellerie</h3>
+      <p>Expérience de gestion d'équipe et d'organisation des tâches.</p>
+    </div>
+    <div class="exp">
+      <h3 style="color:#00ffc3;">2024-2025 – BUT Réseaux & Télécom</h3>
+      <p>Formation technique en systèmes, sécurité, développement et télécommunications.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Section Projets -->
+<section id="projects" data-aos="fade-up">
+  <h2>Mes Compétences</h2>
+  <div class="sae-container">
+    <div class="sae-card">
+      <button class="accordion"><h3 style="color:#00ffc3">Administrer</h3></button>
+      <div class="panel">
+          <a href="SAE1.02.pdf" class="btn">PDF explicatif de la SAE 1.02</a>
+          <a href="SAE2.01.pdf" class="btn">PDF explicatif de la SAE 2.01</a>
+          <a href="SAE2.04.pdf" class="btn">PDF explicatif de la SAE 2.04</a>
+      <ul style="margin-left: 1.5rem; color: #eee;">
+        <li><strong style="color:#00ffc3">AC11.01 :</strong> <span style="color:#a5f3fc">Comprendre et maîtriser les lois de l’électricité pour intervenir sur les équipements réseau et télécom</span><br><br>
+        <span style="color:#d1d5db">Durant mon premier semestre, j’ai acquis les bases indispensables de l’électricité appliquée aux réseaux et télécommunications. J’ai étudié les lois fondamentales comme la loi d’Ohm, la loi des mailles et celle des nœuds, essentielles pour analyser les circuits en courant continu et alternatif.<br><br>
+        Au fil des cours, j’ai également découvert des notions plus complexes telles que les impédances, les modèles de Thévenin ou encore les filtres électroniques, qui permettent d’adapter les signaux aux différents composants d’un réseau.<br><br>
+        En parallèle, l’étude de la logique combinatoire m’a permis de mieux comprendre comment sont traités les signaux numériques dans les équipements informatiques. Ces compétences constituent aujourd’hui un socle solide pour intervenir sur les architectures matérielles et les supports de transmission, qu’il s’agisse de câblage, d’antennes ou d’équipements actifs comme les commutateurs et routeurs.<br><br>
+        Ces connaissances ont été développées à travers les modules R1.13 (Mathématiques du signal), R1.06 (Architecture des systèmes numériques) et R1.14 (Mathématiques des transmissions).</span></li><br>
+
+        <li><strong style="color:#00ffc3">AC11.02 :</strong> <span style="color:#a5f3fc">Comprendre l’architecture des systèmes numériques, le codage de l’information et les principes de communication</span><br><br>
+        <span style="color:#d1d5db">Dans cette compétence, j’ai d’abord appris à décoder le fonctionnement interne d’un ordinateur, en m’appuyant sur la logique binaire et les circuits logiques. J’ai étudié le codage de l’information, qu’il soit binaire, hexadécimal ou décimal, pour comprendre comment les données sont traitées et transmises dans un réseau.<br><br>
+        J’ai ensuite abordé les bases des communications numériques : la structure des trames, l’encapsulation des données et les protocoles comme TCP/IP. L’analyse de trames m’a permis d’identifier les informations essentielles pour leur acheminement.<br><br>
+        Au second semestre, j’ai approfondi les protocoles de routage comme RIP et OSPF, ainsi que la configuration des routes statiques et la découverte du protocole IPv6. Ces apprentissages m’ont beaucoup servi dans les projets où nous avons simulé des environnements réseaux réalistes.<br><br>
+        Cette compétence a été travaillée dans les modules R1.01, R1.02, R1.14 et R2.01.</span></li><br>
+
+        <li><strong style="color:#00ffc3">AC11.03 :</strong> <span style="color:#a5f3fc">Configurer les fonctions de base d’un réseau local</span><br><br>
+        <span style="color:#d1d5db">J’ai développé cette compétence progressivement, en découvrant d’abord les différentes topologies réseau, le rôle des commutateurs et des routeurs, puis en configurant des éléments essentiels comme les VLAN, les adresses IP ou encore les services de base comme le DHCP.<br><br>
+        Les travaux dirigés m’ont permis de pratiquer autour de protocoles tels que Spanning Tree (pour éviter les boucles de commutation) ou VTP (pour gérer les VLAN de façon centralisée).<br><br>
+        Lors de la SAÉ 1.02, j’ai conçu un petit réseau d’entreprise intégrant un routeur, un commutateur, des services DHCP et un routage inter-VLAN avec VTP, le tout en redondance.<br><br>
+        Au second semestre, grâce au module R2.01, j’ai renforcé mes compétences en configurant le protocole RIP, en mettant en œuvre des ACL pour filtrer le trafic, et en sécurisant les ports réseau. Le projet SAÉ 2.01 m’a permis de simuler un réseau complet sur GNS3 avec serveurs DHCP, FTP, Apache, et bien d’autres services interconnectés.</span></li><br>
+
+        <li><strong style="color:#00ffc3">AC11.04 :</strong> <span style="color:#a5f3fc">Interagir avec les systèmes d’exploitation pour administrer réseaux et services</span><br><br>
+        <span style="color:#d1d5db">J’ai appris à travailler avec les deux principaux systèmes d’exploitation utilisés en entreprise : Windows 10 et Linux Debian. Grâce au module R1.08, j’ai appris à les configurer via interface graphique et ligne de commande, ce qui m’a donné une vision concrète et polyvalente.<br><br>
+        Le second semestre, à travers le module R2.02, m’a permis de m’initier aux environnements virtualisés avec des outils comme Docker, KVM ou encore Gnome Boxes. Ces outils m’ont permis d’approfondir l’administration système, notamment sous Linux, dans des contextes réseau complexes.<br><br>
+        J’ai également été formé à l’utilisation de pfSense, un système pare-feu que j’ai configuré à travers plusieurs TP (règles de filtrage, redirection de ports, NAT, etc.). Ces compétences sont directement mobilisables en contexte professionnel, notamment pour la gestion sécurisée des flux réseau.<br><br>
+        Par ailleurs, c’est probablement la compétence que je maîtrise le mieux grâce à mon investissement personnel et aux nombreux TP réalisés.</span></li><br>
+
+        <li><strong style="color:#00ffc3">AC11.05 :</strong> <span style="color:#a5f3fc">Identifier et résoudre les dysfonctionnements d’un réseau local</span><br><br>
+        <span style="color:#d1d5db">À travers mes travaux pratiques et mes projets, j’ai souvent été confronté à des erreurs réseau que j’ai dû diagnostiquer et corriger. Par exemple, lors de la SAÉ 2.01, j’ai rencontré des problèmes liés à RIP ou à la configuration du NAT dans GNS3, que j’ai résolus en procédant à des tests de connectivité (ping, traceroute) étape par étape.<br><br>
+        Dans la SAÉ 1.02, j’ai eu à corriger une mauvaise configuration du serveur DHCP, en reprenant méthodiquement chaque étape selon les spécifications initiales.<br><br>
+        Ces expériences m’ont appris à structurer ma démarche de diagnostic. Les modules R1.01, R1.02, R1.03, R2.01 et R2.03 m’ont fourni les outils nécessaires, comme Wireshark, ping, ou traceroute, pour identifier les pannes et intervenir efficacement.<br><br>
+        Aujourd’hui, je suis capable d’analyser et de corriger les dysfonctionnements d’un réseau local avec méthode et rigueur.</span></li>
+      </ul>
+      <p><strong>projets en rapport avec l'UE:</strong></p>
+      <ul style="margin-left: 1.5rem; color: #eee;">
+        <li>SAE 1.02 : Création d’un réseau local avec routage inter-VLAN et DHCP</li>
+        <li>SAE 2.01 : Mise en œuvre d’un réseau d’entreprise sous GNS3 avec services Apache, FTP, RIP</li>
+        <li>SAE 2.04 : Projet Integratif</li>
+      </ul>
+    </div>
+
+    <div class="sae-card">
+      <button class="accordion"><h3 style="color:#00ffc3">Connecter</h3></button>
+      <div class="panel">
+        <a href="Rapport SAE 13.pdf" class="btn">PDF explicatif de la SAE 1.03</a>
+      <ul style="margin-left: 1.5rem; color: #eee;">
+        <li><strong style="color:#00ffc3">AC12.01 :</strong> <span style="color:#a5f3fc">Mesurer, analyser et commenter les signaux</span><br><br>
+        <span style="color:#d1d5db">Cette compétence a été développée dès le premier semestre dans les ressources R1.04 – Fondamentaux des systèmes électriques et R2.06 – Numérisation de l'information, ainsi que dans la SAÉ 1.03, centrée sur l’étude et la manipulation des signaux.<br><br>
+        J’ai appris à mesurer et analyser des signaux électriques, qu’ils soient continus ou alternatifs. Pour cela, nous avons étudié les lois fondamentales de l’électricité, comme la loi d’Ohm, la loi des mailles (Kirchhoff 1) et la loi des nœuds (Kirchhoff 2). Ces lois m’ont permis de mieux comprendre les comportements des circuits et de justifier mes mesures expérimentales.<br><br>
+        Nous avons aussi abordé les caractéristiques des signaux périodiques : amplitude, fréquence, fréquence d’échantillonnage, phase et forme d’onde. Ces notions sont fondamentales pour comprendre comment l'information circule et se transforme dans un réseau.<br><br>
+        Les apprentissages ont été mis en pratique à l’aide de logiciels de simulation comme Tinkercad, ainsi qu’à travers l’usage d’oscilloscopes. La SAÉ 1.03 a joué un rôle essentiel dans cette acquisition : il s’agissait d’une situation concrète où nous devions mettre en œuvre nos connaissances pour analyser un circuit, en tirer des conclusions et rédiger un rapport structuré. Cela m’a permis de faire le lien entre la théorie vue en cours et son application réelle.</span></li><br>
+
+        <li><strong style="color:#00ffc3">AC12.02 :</strong> <span style="color:#a5f3fc">Caractériser des systèmes de transmission et découvrir la modélisation mathématique de leur fonctionnement</span><br><br>
+        <span style="color:#d1d5db">Cette compétence a été construite à travers plusieurs ressources : R1.04, R1.05 – Supports de transmission pour les réseaux locaux, R2.05 – Signaux et systèmes pour les transmissions, et R2.06.<br><br>
+        Au premier semestre, le module R1.04 m’a permis d’approfondir mes connaissances en électronique. Nous avons manipulé des notions comme les impédances complexes, le modèle de Thévenin, et le comportement des filtres électriques. Ces éléments sont essentiels pour caractériser les systèmes de transmission.<br><br>
+        Le module R2.06 m’a formé aux techniques de numérisation de l’information, notamment du son. Nous avons étudié le théorème de Shannon, les convertisseurs analogique-numérique (CAN) et numérique-analogique (CNA), ainsi que les fréquences d’échantillonnage et de coupure. J’ai ainsi pu mieux comprendre comment un signal analogique peut être transformé en données exploitables par un ordinateur.<br><br>
+        Dans le module R2.05, j’ai appris à analyser les signaux dans le domaine fréquentiel grâce à la Transformée de Fourier (FFT). Nous avons utilisé Matlab et Simulink pour modéliser des signaux, y compris dans des conditions bruitées, et reconstituer des signaux originels. Ces outils m’ont aidé à passer d’une vision intuitive des signaux à une compréhension plus mathématique et rigoureuse.<br><br>
+        Enfin, le module R1.05 m’a initié aux différents supports physiques de transmission, comme les câbles coaxiaux, les paires torsadées (UTP, FTP, STP), ou encore la fibre optique. Nous avons étudié leurs caractéristiques, normes, et usages dans les réseaux.</span></li><br>
+
+        <li><strong style="color:#00ffc3">AC12.03 :</strong> <span style="color:#a5f3fc">Déployer des supports de transmission</span><br><br>
+        <span style="color:#d1d5db">Cette compétence repose essentiellement sur la SAÉ 1.03 et le module R1.05. Dans le cadre d’un projet pratique, j’ai été amené à déployer un support de transmission réel, à savoir un réseau local avec un routeur Wi-Fi.<br><br>
+        Pour cela, j’ai dû confectionner un câble RJ45 cuivre selon la norme TSB 568B, en respectant la disposition des fils pour garantir le bon fonctionnement du réseau. Ce travail manuel, issu de la ressource R1.05, m’a permis de développer ma rigueur et ma précision technique.<br><br>
+        Une fois le câblage terminé, nous avons mesuré la couverture Wi-Fi dans différentes zones du bâtiment. Nous avons analysé la puissance du signal, les zones d’atténuation dues aux murs ou à la distance, et identifié les points de faiblesse du réseau. L’ensemble de ces mesures a été intégré dans un rapport de projet, avec une méthodologie claire, des calculs précis, et des recommandations.<br><br>
+        Cette SAÉ m’a permis de comprendre l’importance du support physique dans la qualité d’un réseau.
+        <li><strong style="color:#00ffc3">AC12.04 :</strong> <span style="color:#a5f3fc">Connecter les systèmes de ToIP</span><br><br>
+        <span style="color:#d1d5db">Grâce au module R2.04 – Initiation à la téléphonie d’entreprise, j’ai découvert le monde de la ToIP (Téléphonie sur IP). Ce module m’a permis de comprendre le fonctionnement général des systèmes de téléphonie professionnelle et les technologies qui les sous-tendent.<br><br>
+        Nous avons utilisé des outils concrets comme :<br><br>
+        Le logiciel Linphone (client SIP),<br>
+        Un téléphone IP de bureau (Yealink T31P),<br>
+        Une tablette GrandStream GXV3380 sous Android.<br><br>
+        L’objectif était de configurer les différents terminaux, de comprendre la signalisation SIP, et de tester les communications entre les postes. Nous avons aussi travaillé avec un serveur SIP pour enregistrer les utilisateurs.<br><br>
+        Ce module m’a offert une première expérience de la téléphonie IP, un domaine essentiel dans les réseaux modernes. Même si nous n’avons abordé que les bases, cela m’a donné envie d’approfondir davantage cette thématique par la suite.</span></li><br>
+
+        <li><strong style="color:#00ffc3">AC12.05 :</strong> <span style="color:#a5f3fc">Communiquer avec un tiers et adapter son discours</span><br><br>
+        <span style="color:#d1d5db">La communication est au cœur de tout projet en réseau ou en télécom. Cette compétence a été abordée dans plusieurs modules : R1.11 et R2.11 (Expression-Culture-Communication), R1.15 (Gestion de projet) et R2.10 (Anglais de communication).<br><br>
+        Les modules de communication m’ont permis d’améliorer mes compétences en expression orale et écrite, notamment dans un contexte professionnel. Nous avons travaillé sur des mises en situation : préparation d’un discours, adaptation du ton et du vocabulaire selon le public, présentation d’un projet technique, etc.<br><br>
+        Le module R1.15 – Gestion de projet a renforcé cette compétence par la pratique. Nous avons appris à travailler en équipe, à répartir les tâches, à élaborer un cahier des charges, et à suivre un planning avec des outils comme le diagramme de Gantt. La communication entre membres du groupe était essentielle pour réussir.<br><br>
+        En anglais, le module R2.10 m’a aidé à développer un vocabulaire technique et professionnel, indispensable dans un domaine où la majorité des documentations et échanges se font en anglais. J’ai aussi eu l’occasion de présenter des sujets en anglais à l’oral, ce qui m’a permis de gagner en confiance.</span></li>
+      </ul>
+      <p><strong>projets en rapport avec l'UE:</strong></p>
+      <ul style="margin-left: 1.5rem; color: #eee;">
+        <li>SAE 1.03 : Étude et analyse de signaux électriques et numériques</li>
+        <li>TP ToIP : Configuration d’une téléphonie d’entreprise via SIP et Linphone</li>
+      </ul>
+    </div>
+
+
+    <div class="sae-card">
+      <button class="accordion"><h3 style="color:#00ffc3">Programmer</h3></button>
+      <div class="panel">
+        <a href="SAE1.04.pdf" class="btn">PDF explicatif de la SAE 1.04</a>
+        <a href="SAE1.05.pdf" class="btn">PDF explicatif de la SAE 1.05</a>
+        <a href="SAE2.03.pdf" class="btn">PDF explicatif de la SAE 2.03</a>
+      <ul style="margin-left: 1.5rem;">
+        <li><strong style="color:#00ffc3">AC13.01 – Utiliser un système informatique et ses outils</strong><br><br>
+          <span style="color:#ddd">Tout au long de l’année, j’ai travaillé sur différents systèmes d’exploitation, notamment Windows 10 et 11, que j’utilise au quotidien, ainsi que Linux Debian, que j’ai découvert cette année. J’ai appris à utiliser les interfaces graphiques, mais surtout la ligne de commande (CLI), indispensable pour automatiser certaines tâches et configurer des environnements.</span><br><br>
+          <span style="color:#ddd">Grâce à la ressource R1.11 – Expression-Culture-Communication Professionnelles, j’ai aussi approfondi mes compétences sur la suite Microsoft 365, en exploitant davantage les possibilités de Word, Excel, PowerPoint.</span><br><br>
+          <span style="color:#ddd">Par ailleurs, j’ai appris à manipuler des machines virtuelles à l’aide d’outils comme Oracle VirtualBox ou VMWare Workstation Player, ce qui m’a permis de simuler des environnements complets pour le développement et les tests de mes projets.</span>
+        </li><br>
+
+        <li><strong style="color:#00ffc3">AC13.02 – Lire, exécuter, corriger et modifier un programme</strong><br><br>
+          <span style="color:#ddd">Cette compétence est au cœur de l’apprentissage de la programmation. Grâce au module R1.07 – Fondamentaux de la programmation, j’ai découvert le langage Python et appris à écrire mes premiers scripts.</span><br><br>
+          <span style="color:#ddd">Pour valider mes acquis, j’ai mené un projet en autonomie dans le cadre de la SAÉ 1.05 – Traiter des données, où il s’agissait de concevoir une application capable de repérer les plus gros fichiers dans un dossier.</span><br><br>
+          <span style="color:#ddd">Au second semestre, la ressource R2.08 – Analyse et traitement de données structurées m’a permis d’aller plus loin dans l’utilisation de Python, en découvrant les classes, getters/setters, et instances, avec des cas concrets comme la recherche d’IP dans des fichiers CSV.</span><br><br>
+          <span style="color:#ddd">J’ai également exploré le développement web avec la ressource R2.09, en utilisant Django, un framework Python permettant de créer des applications web dynamiques. Cela m’a permis de manipuler des données via des interfaces web (CRUD).</span><br><br>
+          <span style="color:#ddd">Enfin, le module R2.13 – Mathématiques des systèmes numériques m’a donné l’occasion d’appliquer les mathématiques via Python. J’ai par exemple programmé un script calculant un tableau d’amortissement pour un prêt.</span>
+        </li><br>
+
+        <li><strong style="color:#00ffc3">AC13.03 – Traduire un algorithme dans un langage et pour un environnement donnés</strong><br><br>
+          <span style="color:#ddd">Cette compétence a été travaillée dès le début de l’année. Avant d’écrire du code, nous avons appris à raisonner en langage algorithmique dans le module R1.07.</span><br><br>
+          <span style="color:#ddd">Par exemple, nous avons conçu un algorithme pour un jeu de devinette de nombre aléatoire entre 1 et 100. Une fois l’algorithme maîtrisé, nous avons progressivement appris à le traduire en Python, en respectant les bonnes pratiques de programmation. Cette méthodologie m’a permis de mieux comprendre la logique derrière chaque instruction.</span>
+        </li><br>
+
+        <li><strong style="color:#00ffc3">AC13.04 – Connaître l’architecture et les technologies d’un site web</strong><br><br>
+          <span style="color:#ddd">Grâce au module R1.09 – Introduction aux technologies web, j’ai découvert les langages HTML et CSS, fondamentaux pour le développement web côté client.</span><br><br>
+          <span style="color:#ddd">Dans le cadre de la SAÉ 1.04 – Se présenter sur Internet, j’ai mis en œuvre ces compétences pour créer un CV en ligne, sous la forme d’une page web personnelle.</span><br><br>
+          <span style="color:#ddd">Au second semestre, j’ai poursuivi l’apprentissage du web dynamique avec Django (R2.09). Cette compétence a été approfondie dans la SAÉ 2.03, où il fallait concevoir un site complet de gestion de notes.</span><br><br>
+          <span style="color:#ddd">En parallèle, le module R2.07 – Sources de données m’a permis de découvrir les bases du langage SQL, pour structurer et interroger les données efficacement.</span>
+        </li><br>
+
+        <li><strong style="color:#00ffc3">AC13.05 – Choisir les mécanismes de gestion de données adaptés au développement de l’outil et argumenter ses choix</strong><br><br>
+          <span style="color:#ddd">La SAÉ 1.05 – Traiter des données a été l’une des premières occasions concrètes de travailler sur la gestion de données.</span><br><br>
+          <span style="color:#ddd">J’ai développé une application Python composée de trois scripts : un pour sélectionner un dossier, un autre pour analyser les fichiers et les enregistrer au format JSON, et un dernier pour afficher les données à l’utilisateur.</span><br><br>
+          <span style="color:#ddd">Les modules R2.07 et R2.08 m’ont permis de manipuler des sources de données variées (CSV, JSON), les analyser et les structurer, notamment avec des REGEX pour les chaînes complexes.</span>
+        </li><br>
+
+        <li><strong style="color:#00ffc3">AC13.06 – S’intégrer dans un environnement propice au développement et au travail collaboratif</strong><br><br>
+          <span style="color:#ddd">Tout au long de l’année, j’ai été amené à travailler en groupe sur différents projets, comme la SAÉ 1.05 ou encore la SAÉ 2.03.</span><br><br>
+          <span style="color:#ddd">J’ai utilisé des outils collaboratifs comme Google Drive, Discord, Git pour le partage et le versionnage de code, ainsi que des IDE adaptés comme Visual Studio Code ou PyCharm.</span><br><br>
+          <span style="color:#ddd">Le module R1.15 – Gestion de projet m’a appris à organiser le travail d’équipe, à structurer un cahier des charges, à répartir les rôles et à suivre l’avancement via un planning clair (diagrammes de Gantt).</span>
+        </li>
+      </ul>
+      <p><strong>projets en rapport avec l'UE :</strong></p>
+      <ul style="margin-left: 1.5rem; color: #eee;">
+        <li>SAE 1.04 : Création d’un CV en ligne statique</li>
+        <li>SAE 1.05 : Application de reporting pour explorer un dossier</li>
+        <li>SAE 2.03 : Application web Django de gestion de notes avec base de données SQL</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+
+  </div>
+</section>
+
+<section id="contact" class="contact" data-aos="fade-up">
+  <h2>Contact</h2>
+  <form>
+    <input type="text" placeholder="Nom">
+    <input type="email" placeholder="jeandupont@gmail.com">
+    <textarea rows="5" placeholder="Message"></textarea>
+    <button type="submit">Envoyer</button>
+  </form>
+</section>
+
+<style>
+.sae-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 1rem 0;
+}
+
+.sae-card {
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 12px;
+  padding: 0;
+  width: 100%;
+}
+  .sae-card img {
+    width: 100%;
+    max-height: 300px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin: 1rem 0;
+  }
+  .sae-card h3 {
+    color: #00ffc3;
+    margin-bottom: 1rem;
+  }
+  .sae-card p {
+    color: #eee;
+    margin: 0.5rem 0;
+    line-height: 1.6;
+  }
+  .sae-card a {
+    color: #00ffc3;
+    text-decoration: underline;
+  }
+  .sae-card a:hover {
+    color: #00c3a0;
+  }
+</style>
+
+<footer>
+  <p>&copy; 2025 Mathis | Portfolio personnel</p>
+</footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+  <script>
+    AOS.init({ duration: 1000 });
+    VANTA.NET({
+      el: "#vanta-bg",
+      mouseControls: true,
+      touchControls: true,
+      minHeight: 200.00,
+      minWidth: 200.00,
+      scale: 1.0,
+      scaleMobile: 1.0,
+      color: 0x00ffc3,
+      backgroundColor: 0x0f0f0f
+    });
+
+    function openProject(card) {
+      const isOpen = card.classList.contains("open");
+      document.querySelectorAll(".project-card").forEach(el => el.classList.remove("open"));
+      if (!isOpen) card.classList.add("open");
+    }
+  </script>
+  <style>
+
+.accordion {
+  background-color: #22272c;
+  color: #38bdf8;
+  cursor: pointer;
+  padding: 1rem;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 1.25rem;
+  font-weight: bold;
+  transition: 0.4s;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.accordion:hover {
+  background-color: #242526;
+}
+
+.panel {
+  padding: 0 1rem;
+  display: none;
+  background-color: #1e1e1e;
+  overflow: hidden;
+  border-radius: 10px;
+  margin-top: 0.5rem;
+}
+</style>
+
+<script>
+document.querySelectorAll(".accordion").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const panel = btn.nextElementSibling;
+    panel.style.display = panel.style.display === "block" ? "none" : "block";
+  });
+});
+</script>
+
+</body>
+</html>
